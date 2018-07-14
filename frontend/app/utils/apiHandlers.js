@@ -8,6 +8,8 @@ export const AUTH_REGISTER_ENDPOINT = '/api/auth/register/';
 export const NOTE_ADD_ENDPOINT = '/api/notes/add/';
 export const NOTES_FETCH_ENDPOINT = '/api/notes/';
 
+export const TIMELINE_FETCH_ENDPOINT = '/api/notes/timeline/';
+
 
 export const loginHandler = (username, password) => {
   // console.log("in login handler", username, password)
@@ -76,3 +78,19 @@ export const refreshAccessToken = (refresh_token, callback = (res) => res.data) 
       // throw error.response.data
     });
 }
+
+export const fetchTimelineHandler = () => {
+  return axios.get(TIMELINE_FETCH_ENDPOINT)
+    .then(response => response.data)
+    .catch(error => {
+      throw error.response.data
+    });
+};
+
+export const makeNotePublicHandler = (note_id) => {
+  return axios.get(TIMELINE_FETCH_ENDPOINT)
+    .then(response => response.data)
+    .catch(error => {
+      throw error.response.data
+    });
+};

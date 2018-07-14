@@ -15,7 +15,7 @@ import React from 'react';
 import { Switch, Route, Link, StaticRouter } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import HomePage from 'containers/HomePage/Loadable';
+import Timeline from 'containers/Timeline/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import LoginPage from 'containers/LoginPage';
 import RegisterPage from 'containers/RegisterPage';
@@ -30,7 +30,7 @@ export default function App() {
       <h1>Personal Notes App</h1>
       <Header />
       <Switch>
-        <Route exact path="/" component={HomePage} />
+        <Route exact path="/" component={Timeline} />
         <PrivateRoute path="/notes" component={NotesPage} />
         <PrivateRoute path="/logout" component={LogoutPage} />
         <AuthRoute path="/login" component={LoginPage} />
