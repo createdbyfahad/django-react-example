@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django.contrib.humanize.templatetags.humanize import naturaltime
 import datetime
 # Create your models here.
 
@@ -26,3 +27,7 @@ class Note(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_created_at(self):
+        # return self.created_at
+        return naturaltime(self.updated_at)

@@ -26,10 +26,8 @@ import NotesView from "components/NotesView";
 export class Timeline extends React.Component {
 
   componentDidMount(){
-  //  fetch notes
-    if(this.props.timeline.notes === undefined || this.props.timeline.notes.length == 0){
-      this.props.fetchTimeline();
-    }
+    //  fetch notes
+    this.props.fetchTimeline();
   }
 
   render() {

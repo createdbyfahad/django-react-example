@@ -10,11 +10,15 @@ from rest_framework.fields import CurrentUserDefault
 from rest_framework.decorators import api_view, permission_classes
 # Create your views here.
 
-
 class NoteSerializer(serializers.ModelSerializer):
+    owner = serializers.StringRelatedField()
+    when_created = serializers.SerializerMethodField()
     class Meta:
         model = Note
-        exclude = ['owner']
+        fields = '__all__'
+
+    def get_when_created(self, obj):
+        return obj.get_created_at()
 
 class Notes(views.APIView):
     permission_classes = (IsAuthenticated,)
@@ -66,11 +70,6 @@ def MakePrivate(request, note_id = None):
     except Note.DoesNotExist:
         return Response({'error': 'A note with provided id does note exist.'}, status=404)
 
-
-class TimelineSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Note
-        exclude = ['owner']
 
 @api_view(['GET'])
 def NotesTimeline(request):

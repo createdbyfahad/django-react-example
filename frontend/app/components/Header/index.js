@@ -19,7 +19,7 @@ class Header extends React.Component {
   render() {
     return (
       <div>
-        <Link to="/"><h4>Home</h4></Link>
+        <Link to="/"><h4>Public Timeline</h4></Link>
         <ShowIfAuth component={() => <Link to="/notes"><h4>Go to My Notes</h4></Link>} />
         <ShowIfAuth component={() => <Link to="/logout"><h4>Logout</h4></Link>} />
         <ShowIfNotAuth component={() =>  <Link to="/login"><h4>Go to login</h4></Link>} />

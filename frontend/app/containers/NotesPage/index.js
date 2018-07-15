@@ -19,9 +19,9 @@ import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 import NoteForm from 'components/NoteForm';
-import {NOTE_ADD_PROCESS, NOTES_FETCH_PROCESS} from "./constants";
+import {NOTE_ADD_PROCESS, NOTES_FETCH_PROCESS, NOTE_MAKEPUBLIC_PROCESS, NOTE_MAKEPRIVATE_PROCESS} from "./constants";
 import {withAuth} from 'containers/AuthProvider/selectors';
-import NotesView from "components/NotesView";
+import PrivateNotesView from "components/PrivateNotesView";
 
 /* eslint-disable react/prefer-stateless-function */
 export class NotesPage extends React.Component {
@@ -42,7 +42,9 @@ export class NotesPage extends React.Component {
         </Helmet>
         <NoteForm onSubmit={this.props.onSubmitNote} errors={this.props.notespage.errors}/>
         <hr />
-        <NotesView notes={this.props.notespage.notes} />
+        <PrivateNotesView notes={this.props.notespage.notes}
+                          onNoteMakePublic={this.props.onNoteMakePublic}
+                          onNoteMakePrivate={this.props.onNoteMakePrivate}/>
       </div>
     );
   }
@@ -65,6 +67,18 @@ function mapDispatchToProps(dispatch) {
     fetchNotes: () => dispatch({
       type: NOTES_FETCH_PROCESS,
     }),
+    onNoteMakePublic: (note_id) => () => {
+      dispatch({
+        type: NOTE_MAKEPUBLIC_PROCESS,
+        note_id: note_id,
+      });
+    },
+    onNoteMakePrivate: (note_id) => () =>{
+      dispatch({
+        type: NOTE_MAKEPRIVATE_PROCESS,
+        note_id: note_id,
+      });
+    },
   };
 }
 

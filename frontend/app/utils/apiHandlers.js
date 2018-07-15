@@ -10,6 +10,9 @@ export const NOTES_FETCH_ENDPOINT = '/api/notes/';
 
 export const TIMELINE_FETCH_ENDPOINT = '/api/notes/timeline/';
 
+export const NOTE_MAKEPRIVATE_ENDPOINT = '/api/notes/{0}/makePrivate';
+export const NOTE_MAKEPUBLIC_ENDPOINT = '/api/notes/{0}/makePublic';
+
 
 export const loginHandler = (username, password) => {
   // console.log("in login handler", username, password)
@@ -87,8 +90,28 @@ export const fetchTimelineHandler = () => {
     });
 };
 
-export const makeNotePublicHandler = (note_id) => {
-  return axios.get(TIMELINE_FETCH_ENDPOINT)
+if (!String.prototype.format) {
+  String.prototype.format = function() {
+    var args = arguments;
+    return this.replace(/{(\d+)}/g, function(match, number) {
+      return typeof args[number] != 'undefined'
+        ? args[number]
+        : match
+      ;
+    });
+  };
+}
+
+export const noteMakePublicHandler = (note_id) => {
+  return axios.post(NOTE_MAKEPUBLIC_ENDPOINT.format(note_id))
+    .then(response => response.data)
+    .catch(error => {
+      throw error.response.data
+    });
+};
+
+export const noteMakePrivateHandler = (note_id) => {
+  return axios.post(NOTE_MAKEPRIVATE_ENDPOINT.format(note_id))
     .then(response => response.data)
     .catch(error => {
       throw error.response.data
