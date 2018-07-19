@@ -28,6 +28,21 @@ class Note(models.Model):
     def __str__(self):
         return self.title
 
-    def get_created_at(self):
-        # return self.created_at
+    @property
+    def humanize_created_at(self):
         return naturaltime(self.updated_at)
+
+    @property
+    def votes(self):
+        upvotes_count = NoteVote.objects.filter(note=self.id, like=True).count()
+        downvotes_count = NoteVote.objects.filter(note=self.id, like=False).count()
+        return (upvotes_count, downvotes_count)
+
+
+class NoteVote(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    note = models.ForeignKey(Note, on_delete=models.CASCADE)
+    like = models.BooleanField(default=True) # true = liked (upvoted), false = disliked (downvoted)
+
+    def __str__(self):
+        return self.owner.username + "  voted " + str(self.like)

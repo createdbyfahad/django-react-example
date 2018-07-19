@@ -3,7 +3,7 @@ from django.urls import path, include
 from django.views import generic
 from rest_framework.schemas import get_schema_view
 from rest_framework_simplejwt.views import (TokenObtainPairView, TokenRefreshView)
-from .views import *
+from .views.auth import *
 from django.conf import settings
 from django.conf.urls.static import static
 from django.core.exceptions import PermissionDenied
@@ -26,7 +26,7 @@ urlpatterns = [
     path('api/auth/token/obtain/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/notes/', include('notes.urls')),
-    path('api/testing/', perform_test)
-    # path('api/user/login/', TestView.as_view())
+    path('api/testing/', perform_test),
+    path('api/auth/register/', Registration.as_view())
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

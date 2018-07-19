@@ -13,6 +13,9 @@ export const TIMELINE_FETCH_ENDPOINT = '/api/notes/timeline/';
 export const NOTE_MAKEPRIVATE_ENDPOINT = '/api/notes/{0}/makePrivate';
 export const NOTE_MAKEPUBLIC_ENDPOINT = '/api/notes/{0}/makePublic';
 
+export const NOTE_UPVOTE_ENDPOINT = '/api/notes/{0}/upVote';
+export const NOTE_DOWNVOTE_ENDPOINT = '/api/notes/{0}/downVote';
+
 
 export const loginHandler = (username, password) => {
   // console.log("in login handler", username, password)
@@ -113,6 +116,26 @@ export const noteMakePublicHandler = (note_id) => {
 export const noteMakePrivateHandler = (note_id) => {
   return axios.post(NOTE_MAKEPRIVATE_ENDPOINT.format(note_id))
     .then(response => response.data)
+    .catch(error => {
+      throw error.response.data
+    });
+};
+
+export const noteUpVoteHandler = (note_id) => {
+  return axios.post(NOTE_UPVOTE_ENDPOINT.format(note_id))
+    .then(response => ({
+      upvotes: response.data.upvotes,
+      downvotes: response.data.downvotes}))
+    .catch(error => {
+      throw error.response.data
+    });
+};
+
+export const noteDownVoteHandler = (note_id) => {
+  return axios.post(NOTE_DOWNVOTE_ENDPOINT.format(note_id))
+    .then(response => ({
+      upvotes: response.data.upvotes,
+      downvotes: response.data.downvotes}))
     .catch(error => {
       throw error.response.data
     });
