@@ -32,6 +32,7 @@ urlpatterns = [
     path('api/auth/register/', Registration.as_view()),
 
     path('populate/users/<int:total>', populate_users),
-    path('populate/notes/<int:total>', populate_notes)
+    path('populate/notes/<int:total>', populate_notes),
+    path('populate/note_votes/<int:percent_likes>', populate_votes)
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

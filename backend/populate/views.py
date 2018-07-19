@@ -5,6 +5,8 @@ from notes.models import (Note, NoteVote)
 from django.contrib.auth.models import User
 from faker import Faker
 import random
+from django.http import JsonResponse
+
 # Create your views here.
 
 DEFAULT_PASSWORD = 123456
@@ -29,7 +31,7 @@ def populate_users(request, total):
         except:
             failed_attempts += 1
 
-    return HttpResponse("failed_attempts: " + str(failed_attempts))
+    return JsonResponse({"failed_attempts: ": failed_attempts})
 
 def populate_notes(request, total):
     # go over all users and add a total of 'total' notes per each user
@@ -42,8 +44,32 @@ def populate_notes(request, total):
                 user.note_set.create(title=fake.text(max_nb_chars=32, ext_word_list=None),
                                      body=fake.paragraph(nb_sentences=4, variable_nb_sentences=True,
                                                          ext_word_list=None),
-                                     public=bool(random.getrandbits(1)))
+                                     public=random.random() > 0.5)
             except:
                 failed_attempts += 1
 
     return HttpResponse("failed_attempts: " + str(failed_attempts))
+
+def populate_votes(request, percent_likes):
+    if percent_likes < 1 or percent_likes > 100:
+        return JsonResponse({"error": "Percent likes has to be between 1 and 100"})
+
+    users = User.objects.all()
+    all_notes = list(Note.objects.all())
+    failed_attempts = 0
+    counter = 0
+    # first delete all votes
+    NoteVote.objects.all().delete()
+    for user in users:
+        for note in all_notes:
+            likes = random.random() < (percent_likes / 100)
+            try:
+                note.notevote_set.create(
+                    owner=user, like=likes
+                )
+                counter += 1
+            except:
+                failed_attempts += 1
+
+    return JsonResponse({"failed_attempts: ": failed_attempts, "counter": counter})
+
