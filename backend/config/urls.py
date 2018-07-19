@@ -12,6 +12,8 @@ from django.conf.urls.static import static
 from rest_framework.decorators import api_view
 from django.http import JsonResponse
 
+from populate.views import *
+
 @api_view(['GET'])
 def perform_test(request):
     ret = {'test': 2, 'fds': 3}
@@ -27,6 +29,9 @@ urlpatterns = [
     path('api/auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/notes/', include('notes.urls')),
     path('api/testing/', perform_test),
-    path('api/auth/register/', Registration.as_view())
+    path('api/auth/register/', Registration.as_view()),
+
+    path('populate/users/<int:total>', populate_users),
+    path('populate/notes/<int:total>', populate_notes)
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
