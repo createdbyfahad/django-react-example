@@ -13,6 +13,9 @@ class TimelineManage(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(public=True)
 
+    def from_date(self, date):
+        return self.get_queryset().f
+
 class Note(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     public = models.BooleanField(default=False)

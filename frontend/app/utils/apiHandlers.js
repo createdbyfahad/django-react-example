@@ -9,6 +9,7 @@ export const NOTE_ADD_ENDPOINT = '/api/notes/add/';
 export const NOTES_FETCH_ENDPOINT = '/api/notes/';
 
 export const TIMELINE_FETCH_ENDPOINT = '/api/notes/timeline/';
+export const PAGINATED_TIMELINE_FETCH_ENDPOINT = '/api/notes/timeline/paginated/?id=';
 
 export const NOTE_MAKEPRIVATE_ENDPOINT = '/api/notes/{0}/makePrivate';
 export const NOTE_MAKEPUBLIC_ENDPOINT = '/api/notes/{0}/makePublic';
@@ -87,6 +88,14 @@ export const refreshAccessToken = (refresh_token, callback = (res) => res.data) 
 
 export const fetchTimelineHandler = () => {
   return axios.get(TIMELINE_FETCH_ENDPOINT)
+    .then(response => response.data)
+    .catch(error => {
+      throw error.response.data
+    });
+};
+
+export const fetchPaginatedTimelineHandler = (link = PAGINATED_TIMELINE_FETCH_ENDPOINT) => {
+  return axios.get(link)
     .then(response => response.data)
     .catch(error => {
       throw error.response.data

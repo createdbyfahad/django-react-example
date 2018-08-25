@@ -1,6 +1,6 @@
 from django.urls import path, include
 from .views import Notes, AllNotes, \
-    MakePublic, MakePrivate, NotesTimeline, upVote, downVote
+    MakePublic, MakePrivate, NotesTimeline, upVote, downVote, PaginatedNotes
 
 
 urlpatterns = [
@@ -10,5 +10,6 @@ urlpatterns = [
     path('<int:note_id>/makePrivate', MakePrivate),
     path('<int:note_id>/upVote', upVote),
     path('<int:note_id>/downVote', downVote),
-    path('timeline/', NotesTimeline)
+    path('timeline/', NotesTimeline),
+    path('timeline/paginated/', PaginatedNotes.as_view()),
 ]

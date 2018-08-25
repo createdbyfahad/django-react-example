@@ -8,6 +8,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.fields import CurrentUserDefault
 from rest_framework.decorators import api_view, permission_classes
+from .pagination import NotesTimelinePagination
+from rest_framework import generics
 # Create your views here.
 
 def votesToJson(votes):
@@ -48,6 +50,11 @@ class AllNotes(views.APIView):
         notes = request.user.note_set.all()
         serializer = NoteSerializer(notes, many=True)
         return JsonResponse(serializer.data, status=201, safe=False)
+
+# class PaginatedNotes(views.APIView):
+#     def get(self, request, from_date=None):
+#         # notes = Note.objects.
+#         return JsonResponse({'fasd':'fdsad'})
 
 def handlePublicStatus(request, note_id, status):
     try:
@@ -101,3 +108,8 @@ def NotesTimeline(request):
     timeline = Note.timeline.all()
     serializer = NoteSerializer(timeline, many=True)
     return Response(serializer.data)
+
+class PaginatedNotes(generics.ListAPIView):
+    queryset = Note.timeline.all()
+    serializer_class = NoteSerializer
+    pagination_class = NotesTimelinePagination
