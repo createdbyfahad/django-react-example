@@ -1,5 +1,5 @@
 
-from rest_framework import generics, serializers, views
+from rest_framework import generics, serializers, views, exceptions
 from rest_framework.permissions import IsAdminUser
 from .models import Tag
 from notes.models import Note
@@ -22,7 +22,7 @@ class AllTags(generics.ListCreateAPIView):
     # permission_classes = (IsAdminUser,)
 
 
-class Notes(views.APIView):
+class Notes1(views.APIView):
     pagination_class = NotesTimelinePagination
     def get(self, request, tag_title):
         try:
@@ -33,3 +33,29 @@ class Notes(views.APIView):
         except Tag.DoesNotExist:
             return JsonResponse({'error': 'A tag with provided title does note exist.'}, status=404)
 
+
+class Notes(generics.ListAPIView):
+    # queryset = Note.timeline.all()
+    serializer_class = NoteSerializer
+    pagination_class = NotesTimelinePagination
+
+    # def get(self, request, tag_title):
+    #     try:
+    #         tag = Tag.objects.get(title=tag_title)
+    #         self.queryset = tag.note_set.all()
+    #         super().get(request, tag_title)
+    #     except Tag.DoesNotExist:
+    #         return JsonResponse({'error': 'A tag with provided title does note exist.'}, status=404)
+
+    def get_queryset(self):
+        try:
+            tag = Tag.objects.get(title=self.kwargs['tag_title'])
+        except Tag.DoesNotExist:
+            raise exceptions.NotFound(detail="A tag with provided title does note exist.")
+
+        return tag.note_set.all()
+        #
+        # try:
+        #
+        # except Tag.DoesNotExist:
+        #     return JsonResponse({'error': 'A tag with provided title does note exist.'}, status=404)

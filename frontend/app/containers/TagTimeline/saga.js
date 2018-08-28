@@ -1,8 +1,8 @@
 import {call, put, takeLatest} from "redux-saga/es/effects";
 import {UPVOTE_PROCESS, DOWNVOTE_PROCESS,
   UPVOTE_SUCCESS, DOWNVOTE_SUCCESS,
-  TIMELINE_FETCH_PROCESS, TIMELINE_FETCH_SUCCESS, PAGINATED_TIMELINE_FETCH_PROCESS, PAGINATED_TIMELINE_FETCH_SUCCESS} from "./constants";
-import {fetchTimelineHandler, noteUpVoteHandler, noteDownVoteHandler, fetchPaginatedTimelineHandler} from 'utils/apiHandlers';
+  TIMELINE_FETCH_PROCESS, TIMELINE_FETCH_SUCCESS, PAGINATED_TIMELINE_FETCH_PROCESS, PAGINATED_TIMELINE_FETCH_SUCCESS, TAG_TIMELINE_FETCH_PROCESS, TAG_TIMELINE_FETCH_SUCCESS} from "./constants";
+import {fetchTimelineHandler, noteUpVoteHandler, noteDownVoteHandler, fetchPaginatedTimelineHandler, fetchTagTimelineHandler} from 'utils/apiHandlers';
 
 export function* fetchTimeline(action) {
   try {
@@ -17,8 +17,8 @@ export function* fetchTimeline(action) {
 // for testing a paginated timeline
 export function* fetchPaginatedTimeline(action) {
   try{
-    const res = yield call(fetchPaginatedTimelineHandler, action.next_id);
-    yield put({type: PAGINATED_TIMELINE_FETCH_SUCCESS, notes: res.results, next_id: res.next})
+    const res = yield call(fetchTagTimelineHandler, action.next_link, action.tag_title);
+    yield put({type: TAG_TIMELINE_FETCH_SUCCESS, notes: res.results, next_link: res.next})
   } catch (errs) {
 
   }
@@ -50,8 +50,7 @@ export function* handleDownVote(action) {
 // Individual exports for testing
 export default function* defaultSaga() {
   // See example in containers/HomePage/saga.js
-  yield takeLatest(TIMELINE_FETCH_PROCESS, fetchTimeline);
-  yield takeLatest(PAGINATED_TIMELINE_FETCH_PROCESS, fetchPaginatedTimeline);
+  yield takeLatest(TAG_TIMELINE_FETCH_PROCESS, fetchPaginatedTimeline);
   yield takeLatest(UPVOTE_PROCESS, handleUpVote);
   yield takeLatest(DOWNVOTE_PROCESS, handleDownVote);
 }

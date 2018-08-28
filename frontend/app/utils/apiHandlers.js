@@ -19,6 +19,22 @@ export const NOTE_DOWNVOTE_ENDPOINT = '/api/notes/{0}/downVote';
 
 
 export const TAGS_FETCH_ENDPOINT = '/api/tags/all';
+export const TAG_TIMELINE_FETCH_ENDPOINT = '/api/tags/{0}/?id=';
+
+
+
+
+if (!String.prototype.format) {
+  String.prototype.format = function () {
+    var args = arguments;
+    return this.replace(/{(\d+)}/g, function (match, number) {
+      return typeof args[number] != 'undefined'
+        ? args[number]
+        : match
+        ;
+    });
+  };
+}
 
 
 export const loginHandler = (username, password) => {
@@ -88,7 +104,7 @@ export const refreshAccessToken = (refresh_token, callback = (res) => res.data) 
       console.log(error)
       // throw error.response.data
     });
-}
+};
 
 export const fetchTimelineHandler = () => {
   return axios.get(TIMELINE_FETCH_ENDPOINT)
@@ -106,17 +122,18 @@ export const fetchPaginatedTimelineHandler = (link = PAGINATED_TIMELINE_FETCH_EN
     });
 };
 
-if (!String.prototype.format) {
-  String.prototype.format = function() {
-    var args = arguments;
-    return this.replace(/{(\d+)}/g, function(match, number) {
-      return typeof args[number] != 'undefined'
-        ? args[number]
-        : match
-      ;
+export const fetchTagTimelineHandler = (link, tag_title) => {
+
+  if(link === undefined || link === null){
+    link = TAG_TIMELINE_FETCH_ENDPOINT.format(tag_title)
+  }
+
+  return axios.get(link)
+    .then(response => response.data)
+    .catch(error => {
+      throw error.response.data
     });
-  };
-}
+};
 
 export const noteMakePublicHandler = (note_id) => {
   return axios.post(NOTE_MAKEPUBLIC_ENDPOINT.format(note_id))

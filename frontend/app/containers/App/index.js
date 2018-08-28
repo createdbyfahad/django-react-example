@@ -36,7 +36,8 @@ export default function App() {
         <PrivateRoute path="/logout" component={LogoutPage} />
         <AuthRoute path="/login" component={LoginPage} />
         <AuthRoute path="/register" component={RegisterPage} />
-        <Route path="/tags/:title" component={TagTimeline} />
+        <Route path="/tags/:title" render={(props) => (
+          <TagTimeline key={props.match.params.title} {...props} />)} />
         <Route component={NotFoundPage} />
       </Switch>
     </div>

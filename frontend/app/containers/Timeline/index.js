@@ -21,16 +21,19 @@ import messages from './messages';
 import {TIMELINE_FETCH_PROCESS, UPVOTE_PROCESS, DOWNVOTE_PROCESS, PAGINATED_TIMELINE_FETCH_PROCESS} from './constants';
 import NotesView from "components/NotesView";
 import PaginatedTimelineView from "components/PaginatedTimelineView";
+import {TAG_TIMELINE_FETCH_PROCESS} from "../TagTimeline/constants";
 
 
 /* eslint-disable react/prefer-stateless-function */
 export class Timeline extends React.Component {
 
-  componentDidMount(){
+  componentDidMount() {
     //  fetch notes
     // this.props.fetchTimeline();
-    if(this.props.timeline.notes !== undefined && this.props.timeline.notes.length === 0) this.props.fetchPaginatedTimeline()
+    // if(this.props.timeline.notes !== undefined && this.props.timeline.notes.length === 0) this.props.fetchPaginatedTimeline()
+    this.props.fetchPaginatedTimeline(undefined, true)
   }
+
 
   render() {
     return (
@@ -46,8 +49,7 @@ export class Timeline extends React.Component {
                    {/*onNoteDownVote={this.props.onNoteDownVote}/>*/}
          <PaginatedTimelineView timeline={this.props.timeline}
                             fetchPaginatedNotesHandler={this.props.fetchPaginatedTimeline}
-                            onNoteUpVote={this.props.onNoteUpVote}
-                            onNoteDownVote={this.props.onNoteDownVote}>
+                            >
 
          </PaginatedTimelineView>
       </div>
@@ -60,25 +62,14 @@ const mapStateToProps = createStructuredSelector({
   timeline: makeSelectTimeline(),
 });
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch, ownProps) {
   return {
-    fetchTimeline: () => dispatch({
-      type: TIMELINE_FETCH_PROCESS,
-    }),
-    fetchPaginatedTimeline: (next_id) => dispatch({
-      type: PAGINATED_TIMELINE_FETCH_PROCESS,
-      next_id: next_id,
-    }),
-    onNoteUpVote: (note_id) => () => {
-      dispatch({
-        type: UPVOTE_PROCESS,
-        note_id: note_id,
-      });
-    },
-    onNoteDownVote: (note_id) => () =>{
-      dispatch({
-        type: DOWNVOTE_PROCESS,
-        note_id: note_id,
+    fetchPaginatedTimeline: (next_link, isInitial = false) => {
+      if(next_link === null || next_link === undefined && isInitial === false) return;
+      return dispatch({
+        type: PAGINATED_TIMELINE_FETCH_PROCESS,
+        next_link: next_link,
+        isInitial: isInitial,
       });
     },
   };

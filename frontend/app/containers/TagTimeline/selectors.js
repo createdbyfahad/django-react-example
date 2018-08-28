@@ -5,7 +5,7 @@ import { initialState } from './reducer';
  * Direct selector to the timeline state domain
  */
 
-const selectTimelineDomain = state => state.get('timeline', initialState);
+const selectTagTimelineDomain = state => state.get('tag_timeline', initialState);
 
 /**
  * Other specific selectors
@@ -15,8 +15,8 @@ const selectTimelineDomain = state => state.get('timeline', initialState);
  * Default selector used by Timeline
  */
 
-const makeSelectTimeline = () =>
-  createSelector(selectTimelineDomain, substate => substate.toJS());
+const makeTagSelectTimeline = () =>
+  createSelector(selectTagTimelineDomain, substate => substate.toJS());
 
-export default makeSelectTimeline;
-export { selectTimelineDomain };
+export default makeTagSelectTimeline;
+export { selectTagTimelineDomain };

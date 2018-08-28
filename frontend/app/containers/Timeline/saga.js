@@ -17,8 +17,8 @@ export function* fetchTimeline(action) {
 // for testing a paginated timeline
 export function* fetchPaginatedTimeline(action) {
   try{
-    const res = yield call(fetchPaginatedTimelineHandler, action.next_id);
-    yield put({type: PAGINATED_TIMELINE_FETCH_SUCCESS, notes: res.results, next_id: res.next})
+    const res = yield call(fetchPaginatedTimelineHandler, action.next_link);
+    yield put({type: PAGINATED_TIMELINE_FETCH_SUCCESS, notes: res.results, next_link: res.next})
   } catch (errs) {
 
   }

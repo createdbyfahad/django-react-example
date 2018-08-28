@@ -28,14 +28,15 @@ class PaginatedTimelineView extends React.Component {
   constructor(props) {
     super(props)
     this.fetchPaginatedNotesHandler = props.fetchPaginatedNotesHandler.bind(this)
+    this.handleOnScroll = this.handleOnScroll.bind(this)
   }
 
   componentDidMount(){
-    window.addEventListener('scroll', (e) => this.handleOnScroll());
+    window.addEventListener('scroll', this.handleOnScroll);
   }
 
-  componentWillUnmout(){
-     // window.removeEventListener('scroll', (e) => this.handleOnScroll());
+  componentWillUnmount(){
+     window.removeEventListener('scroll', this.handleOnScroll);
   }
 
   handleOnScroll(){
@@ -45,7 +46,7 @@ class PaginatedTimelineView extends React.Component {
     let scrolledToBottom = Math.ceil(scrollTop + clientHeight) >= scrollHeight;
 
     if (scrolledToBottom) {
-      this.fetchPaginatedNotesHandler(this.props.timeline.next_id);
+      this.fetchPaginatedNotesHandler(this.props.timeline.next_link);
     }
   }
 
@@ -54,9 +55,8 @@ class PaginatedTimelineView extends React.Component {
       note =>
         <SingleNote key={note.id} id={note.id}
                     title={note.title} body={note.body} image={note.image} when={note.humanize_created_at} tags={note.tags}
-                    sideComponent={
-                      <ByUser votes={note.votes} name={note.owner}
-                        upvoteHandler={this.props.onNoteUpVote(note.id)} downvoteHandler={this.props.onNoteDownVote(note.id)}/>} />
+                    votes={note.votes} name={note.owner}
+                     />
     )
     // notes.reverse()
     return (

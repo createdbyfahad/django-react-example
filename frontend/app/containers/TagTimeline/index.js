@@ -14,11 +14,11 @@ import { compose } from 'redux';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import makeSelectTimeline from './selectors';
+import makeSelectTagTimeline from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
-import {TIMELINE_FETCH_PROCESS, UPVOTE_PROCESS, DOWNVOTE_PROCESS, PAGINATED_TIMELINE_FETCH_PROCESS} from './constants';
+import {TIMELINE_FETCH_PROCESS, UPVOTE_PROCESS, DOWNVOTE_PROCESS, PAGINATED_TIMELINE_FETCH_PROCESS, TAG_TIMELINE_FETCH_PROCESS} from './constants';
 import NotesView from "components/NotesView";
 import PaginatedTimelineView from "components/PaginatedTimelineView";
 
@@ -28,28 +28,27 @@ export class TagTimeline extends React.Component {
 
   componentDidMount(){
     //  fetch notes
-    // this.props.fetchTimeline();
-    if(this.props.timeline.notes !== undefined && this.props.timeline.notes.length === 0) this.props.fetchPaginatedTimeline()
+    // this.props.fetchPaginatedTimeline(undefined, true)
+    if(this.props.timeline.tag_title !== this.props.match.params.title) this.props.fetchPaginatedTimeline(undefined, true)
+    // if(this.props.timeline.notes !== undefined && this.props.timeline.notes.length === 0) this.props.fetchPaginatedTimeline()
   }
 
   render() {
+    const notes_count = this.props.timeline.notes.length;
     return (
       <div>
         <Helmet>
-          <title>TagTimeline</title>
+          <title>Tag Timeline</title>
           <meta name="description" content="Description of Timeline" />
         </Helmet>
-        <h2>Notes Tag Timeline</h2>
-        <p>Users can make any of their notes public, and it will be shown in the home page to all visitors.</p>
+        <h2>Notes by Tag: !{this.props.timeline.tag_title}</h2>
+        <p>There total {notes_count} notes.</p>
+        {notes_count > 0 && <p>Last note was added <i>{this.props.timeline.notes[notes_count - 1].humanize_created_at}</i></p>}
         {/*<NotesView notes={this.props.timeline.notes}*/}
                    {/*onNoteUpVote={this.props.onNoteUpVote}*/}
                    {/*onNoteDownVote={this.props.onNoteDownVote}/>*/}
          <PaginatedTimelineView timeline={this.props.timeline}
-                            fetchPaginatedNotesHandler={this.props.fetchPaginatedTimeline}
-                            onNoteUpVote={this.props.onNoteUpVote}
-                            onNoteDownVote={this.props.onNoteDownVote}>
-
-         </PaginatedTimelineView>
+                            fetchPaginatedNotesHandler={this.props.fetchPaginatedTimeline} />
       </div>
     );
   }
@@ -57,28 +56,18 @@ export class TagTimeline extends React.Component {
 
 
 const mapStateToProps = createStructuredSelector({
-  timeline: makeSelectTimeline(),
+  timeline: makeSelectTagTimeline(),
 });
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch, ownProps) {
   return {
-    fetchTimeline: () => dispatch({
-      type: TIMELINE_FETCH_PROCESS,
-    }),
-    fetchPaginatedTimeline: (next_id) => dispatch({
-      type: PAGINATED_TIMELINE_FETCH_PROCESS,
-      next_id: next_id,
-    }),
-    onNoteUpVote: (note_id) => () => {
-      dispatch({
-        type: UPVOTE_PROCESS,
-        note_id: note_id,
-      });
-    },
-    onNoteDownVote: (note_id) => () =>{
-      dispatch({
-        type: DOWNVOTE_PROCESS,
-        note_id: note_id,
+    fetchPaginatedTimeline: (next_link, isInitial = false) => {
+      if(next_link === null || next_link === undefined && isInitial === false) return;
+      return dispatch({
+        type: TAG_TIMELINE_FETCH_PROCESS,
+        tag_title: ownProps.match.params.title,
+        next_link: next_link,
+        isInitial: isInitial,
       });
     },
   };
@@ -89,8 +78,8 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-const withReducer = injectReducer({ key: 'timeline', reducer });
-const withSaga = injectSaga({ key: 'timeline', saga });
+const withReducer = injectReducer({ key: 'tag_timeline', reducer });
+const withSaga = injectSaga({ key: 'tag_timeline', saga });
 
 export default compose(
   withReducer,
