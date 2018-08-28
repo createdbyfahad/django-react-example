@@ -11,6 +11,7 @@ import jwtDecode from 'jwt-decode';
 import languageProviderReducer from 'containers/LanguageProvider/reducer';
 import {LOGIN_SUCCESS, LOGOUT_PROCESS, NEW_ACCESS_TOKEN} from "./containers/LoginPage/constants";
 import {NOTE_ADD_PROCESS} from "./containers/NotesPage/constants";
+import {saveAuthState} from "./localStrorage";
 
 /*
  * routeReducer
@@ -59,10 +60,13 @@ export function authReducer(state = authInitialReducer, action) {
         },
       };
       axios.defaults.headers.common['Authorization'] = `Bearer ${auth.access.token}`;
+      // save the data to localstorage
+      saveAuthState({auth: auth})
       // console.log(auth);
       return Map(auth);
     case LOGOUT_PROCESS:
       delete axios.defaults.headers.common['Authorization'];
+      saveAuthState({auth: authInitialReducer})
       return authInitialReducer;
     case NEW_ACCESS_TOKEN:
       // console.log('new_access', action.new_token)
@@ -71,7 +75,9 @@ export function authReducer(state = authInitialReducer, action) {
           ...jwtDecode(action.new_token),
         };
       axios.defaults.headers.common['Authorization'] = `Bearer ${action.new_token}`;
-      return state.set('access', new_access);
+      state = state.set('access', new_access);
+      saveAuthState({auth: state})
+      return state;
     default:
       return state;
   }

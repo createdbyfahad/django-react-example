@@ -29,7 +29,7 @@ export class Timeline extends React.Component {
   componentDidMount(){
     //  fetch notes
     // this.props.fetchTimeline();
-    this.props.fetchPaginatedTimeline()
+    if(this.props.timeline.notes !== undefined && this.props.timeline.notes.length === 0) this.props.fetchPaginatedTimeline()
   }
 
   render() {

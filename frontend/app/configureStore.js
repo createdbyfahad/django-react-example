@@ -12,6 +12,8 @@ import {logger, checkAccessToken} from "utils/middlewares";
 
 const sagaMiddleware = createSagaMiddleware();
 
+import {loadAuthState, saveAuthState} from "./localStrorage";
+
 export default function configureStore(initialState = {}, history) {
   // Create the store with two middlewares
   // 1. sagaMiddleware: Makes redux-sagas work
@@ -34,11 +36,18 @@ export default function configureStore(initialState = {}, history) {
       : compose;
   /* eslint-enable */
 
+  const persistedState = loadAuthState()
+
   const store = createStore(
     createReducer(),
-    fromJS(initialState),
+    fromJS(persistedState),
     composeEnhancers(...enhancers),
   );
+  // TODO find a fix for the multi errors appear with task id bein replicate
+  // store.subscribe(() => {
+  //
+  // });
+  // store.subscribe(() => console.log(store.getState()))
 
   // Extensions
   store.runSaga = sagaMiddleware.run;

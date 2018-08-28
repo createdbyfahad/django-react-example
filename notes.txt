@@ -1,0 +1,10 @@
+
+
+Todo:
+- DONE persist auth info for user login/logout
+- add support for tags
+-
+
+
+
+Comments:

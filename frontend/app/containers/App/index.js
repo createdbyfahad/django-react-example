@@ -16,6 +16,7 @@ import { Switch, Route, Link, StaticRouter } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Timeline from 'containers/Timeline/Loadable';
+import TagTimeline from 'containers/TagTimeline/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import LoginPage from 'containers/LoginPage';
 import RegisterPage from 'containers/RegisterPage';
@@ -35,6 +36,7 @@ export default function App() {
         <PrivateRoute path="/logout" component={LogoutPage} />
         <AuthRoute path="/login" component={LoginPage} />
         <AuthRoute path="/register" component={RegisterPage} />
+        <Route path="/tags/:title" component={TagTimeline} />
         <Route component={NotFoundPage} />
       </Switch>
     </div>

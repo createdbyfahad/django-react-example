@@ -45,7 +45,6 @@ class PaginatedTimelineView extends React.Component {
     let scrolledToBottom = Math.ceil(scrollTop + clientHeight) >= scrollHeight;
 
     if (scrolledToBottom) {
-      console.log("bottom")
       this.fetchPaginatedNotesHandler(this.props.timeline.next_id);
     }
   }
@@ -54,7 +53,7 @@ class PaginatedTimelineView extends React.Component {
     const notes = this.props.timeline.notes.map(
       note =>
         <SingleNote key={note.id} id={note.id}
-                    title={note.title} body={note.body} image={note.image} when={note.humanize_created_at}
+                    title={note.title} body={note.body} image={note.image} when={note.humanize_created_at} tags={note.tags}
                     sideComponent={
                       <ByUser votes={note.votes} name={note.owner}
                         upvoteHandler={this.props.onNoteUpVote(note.id)} downvoteHandler={this.props.onNoteDownVote(note.id)}/>} />

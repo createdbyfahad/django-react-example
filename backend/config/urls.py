@@ -30,6 +30,7 @@ urlpatterns = [
     path('api/notes/', include('notes.urls')),
     path('api/testing/', perform_test),
     path('api/auth/register/', Registration.as_view()),
+    path('api/tags/', include('tags.urls')),
 
     path('populate/users/<int:total>', populate_users),
     path('populate/notes/<int:total>', populate_notes),

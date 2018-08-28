@@ -29,7 +29,7 @@ class NotesView extends React.PureComponent {
     const notes = this.props.notes.map(
       note =>
         <SingleNote key={note.id} id={note.id}
-                    title={note.title} body={note.body} image={note.image} when={note.humanize_created_at}
+                    title={note.title} body={note.body} image={note.image} when={note.humanize_created_at} tags={note.tags}
                     sideComponent={
                       <ByUser votes={note.votes} name={note.owner}
                         upvoteHandler={this.props.onNoteUpVote(note.id)} downvoteHandler={this.props.onNoteDownVote(note.id)}/>} />

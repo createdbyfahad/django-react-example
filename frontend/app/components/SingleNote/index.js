@@ -5,7 +5,10 @@
  */
 
 import React from 'react';
-import {Card, CardTitle, CardBody, Button, CardText, CardSubtitle, CardImg, CardFooter } from 'reactstrap';
+import {Card, CardTitle, CardBody, Button, CardText, CardSubtitle, CardImg, CardFooter, Row } from 'reactstrap';
+import { connect } from 'react-redux';
+
+import { push } from 'react-router-redux';
 
 // import PropTypes from 'prop-types';
 // import styled from 'styled-components';
@@ -18,6 +21,11 @@ const SingleNote = (props) => {
     <CardImg top width="100%" src={props.image} /> : []);
   const sideComponent = (props.sideComponent?
     <CardFooter>{props.sideComponent}</CardFooter> : []);
+  const tags = props.tags.map((tag) => {
+    return <span key={tag}><a onClick={() => (props.dispatch(push("/tags/" + tag)))}>{tag}</a>, </span>
+  });
+
+
   return (
     <div>
       <Card>
@@ -27,7 +35,8 @@ const SingleNote = (props) => {
           <CardSubtitle>{props.title}</CardSubtitle>
           <CardText>
             {props.body}<br />
-            <small>({props.when})</small>
+            <small>({props.when})</small><br />
+            {tags.length > 0 && <b>tags: </b>}{tags}
           </CardText>
         </CardBody>
         {sideComponent}
@@ -39,4 +48,4 @@ const SingleNote = (props) => {
 
 SingleNote.propTypes = {};
 
-export default SingleNote;
+export default connect()(SingleNote);

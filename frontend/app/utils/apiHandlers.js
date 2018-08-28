@@ -18,6 +18,9 @@ export const NOTE_UPVOTE_ENDPOINT = '/api/notes/{0}/upVote';
 export const NOTE_DOWNVOTE_ENDPOINT = '/api/notes/{0}/downVote';
 
 
+export const TAGS_FETCH_ENDPOINT = '/api/tags/all';
+
+
 export const loginHandler = (username, password) => {
   // console.log("in login handler", username, password)
   return axios.post(AUTH_TOKEN_OBTAIN_ENDPOINT, {
@@ -46,7 +49,7 @@ export const registerHandler = (fields) => {
     })
 };
 
-export const noteAddHandler = (title, body, image) => {
+export const noteAddHandler = (title, body, image, tags) => {
   // console.log("in note add handler", image)
   // var imageForm = null;
   // if(image != undefined){
@@ -59,6 +62,7 @@ export const noteAddHandler = (title, body, image) => {
   formData.append('title', title);
   formData.append('body', body);
   if(image != null) formData.append('image', image);
+  formData.append('tags', JSON.stringify(tags))
   return axios.post(NOTE_ADD_ENDPOINT, formData
     , { headers: { 'Content-Type': 'multipart/form-data' } })
     .then(response => response.data)
@@ -147,5 +151,14 @@ export const noteDownVoteHandler = (note_id) => {
       downvotes: response.data.downvotes}))
     .catch(error => {
       throw error.response.data
+    });
+};
+
+
+export const fetchTagsHandler = (callback) => {
+  return axios.get(TAGS_FETCH_ENDPOINT)
+    .then(response => callback(response.data))
+    .catch(error => {
+      throw error
     });
 };

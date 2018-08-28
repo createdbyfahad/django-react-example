@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'django.contrib.humanize',
 
-    'notes'
+    'notes',
+    'tags'
 ]
 
 MIDDLEWARE = [
@@ -68,7 +69,7 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         # 'rest_framework.authentication.SessionAuthentication',
     ),
-    'DEFAULT_PAGINATION_CLASS': 'notes.pagination.NotesTimelinePagination',
+    # 'DEFAULT_PAGINATION_CLASS': 'notes.pagination.NotesTimelinePagination',
 }
 
 ROOT_URLCONF = 'config.urls'

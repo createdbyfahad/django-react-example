@@ -29,7 +29,7 @@ class NotesView extends React.PureComponent {
       note => {
         const handler = note.public? this.props.onNoteMakePrivate(note.id) : this.props.onNoteMakePublic(note.id);
         return (<SingleNote key={note.id} id={note.id}
-                    title={note.title} body={note.body} image={note.image} when={note.humanize_created_at}
+                    title={note.title} body={note.body} image={note.image} when={note.humanize_created_at} tags={note.tags}
                     sideComponent={<HandleNoteStatus current={note.public} handler={handler}/>}/>)
       }
     )

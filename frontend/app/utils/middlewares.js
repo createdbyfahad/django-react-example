@@ -20,7 +20,7 @@ export const checkAccessToken = (store) => next => action => {
     // get a new token using the refresh token
     // console.log(token.get('refresh').token)
     // TODO maybe there is a better way for doing asynchrous call?
-    return refreshAccessToken(token.get('refresh').token,
+    return refreshAccessToken(token.get('refresh').get('token'),
       (new_token) => {store.dispatch({type: NEW_ACCESS_TOKEN, new_token: new_token}); return next(action);});
     // pass
 

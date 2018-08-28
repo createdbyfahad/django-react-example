@@ -56,12 +56,13 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    onSubmitNote: (title, body, image) => {
+    onSubmitNote: (title, body, image, tags) => {
       dispatch({
         type: NOTE_ADD_PROCESS,
         title: title,
         body: body,
         image: image,
+        tags: tags,
       });
     },
     fetchNotes: () => dispatch({

@@ -12,21 +12,30 @@ import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 
 import TextInput from 'components/TextInput';
-import {Alert, Button, Form} from 'reactstrap';
+import TagsInput from 'components/TagsInput';
+import {Alert, Button, Form, Label, FormGroup, FormFeedback} from 'reactstrap';
+
+
+
+
+
 
 
 /* eslint-disable react/prefer-stateless-function */
 class NoteForm extends React.Component {
+
   state = {
     image: null,
     title: '',
     body: '',
+    tags: [],
   };
+
   handleInputChange = (event) => {
     const target = event.target,
       value = target.type ===
       'checkbox' ? target.checked : target.value,
-      name = target.name
+      name = target.name;
     this.setState({
       [name]: value
     });
@@ -42,13 +51,19 @@ class NoteForm extends React.Component {
 
   onSubmit = (e) => {
     if (e !== undefined && e.preventDefault) e.preventDefault();
-    this.props.onSubmit(this.state.title, this.state.body, this.state.image);
+    const tags = this.state.tags.map(tag => parseInt(tag.id));
+    this.props.onSubmit(this.state.title, this.state.body, this.state.image, tags);
     this.setState({
       image: null,
       title: '',
       body: '',
+      tags: [],
     });
-  }
+  };
+
+  handleSelectedTags = (newTags) => {
+    this.setState({tags: newTags})
+  };
 
   render() {
     const errors = this.props.errors || {}
@@ -68,6 +83,7 @@ class NoteForm extends React.Component {
                      id="TitleField" placeholder="Enter Title" value={this.state.title} error={errors.title} onChange={this.handleInputChange}/>
           <TextInput label="Body" type="textarea" name="body"
                      id="BodyField" placeholder="Enter Body" value={this.state.body} error={errors.body} onChange={this.handleInputChange}/>
+          <TagsInput tags={this.state.tags} handleSelectedTags={this.handleSelectedTags} error={errors.tags} />
           <Button color="primary">Add Note</Button>
         </Form>
       </div>

@@ -13,7 +13,7 @@ import {noteAddHandler, fetchNotesHandler,
 export function* handleNoteAdd(action) {
   // console.log("in saga", action)
   try {
-    const res = yield call(noteAddHandler, action.title, action.body, action.image);
+    const res = yield call(noteAddHandler, action.title, action.body, action.image, action.tags);
     // success login
     yield put({type: NOTE_ADD_SUCCESS, note: res})
     // yield put(null)
