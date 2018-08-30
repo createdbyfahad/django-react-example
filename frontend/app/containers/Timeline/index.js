@@ -22,6 +22,7 @@ import {TIMELINE_FETCH_PROCESS, UPVOTE_PROCESS, DOWNVOTE_PROCESS, PAGINATED_TIME
 import NotesView from "components/NotesView";
 import PaginatedTimelineView from "components/PaginatedTimelineView";
 import {TAG_TIMELINE_FETCH_PROCESS} from "../TagTimeline/constants";
+import PopularTags from "containers/PopularTags/Loadable";
 
 
 /* eslint-disable react/prefer-stateless-function */
@@ -44,6 +45,11 @@ export class Timeline extends React.Component {
         </Helmet>
         <h2>Notes Timeline</h2>
         <p>Users can make any of their notes public, and it will be shown in the home page to all visitors.</p>
+        <div>
+          <h4>Popular tags</h4>
+          <PopularTags />
+          <br />
+        </div>
         {/*<NotesView notes={this.props.timeline.notes}*/}
                    {/*onNoteUpVote={this.props.onNoteUpVote}*/}
                    {/*onNoteDownVote={this.props.onNoteDownVote}/>*/}

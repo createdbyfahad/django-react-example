@@ -22,14 +22,15 @@ import {TIMELINE_FETCH_PROCESS, UPVOTE_PROCESS, DOWNVOTE_PROCESS, PAGINATED_TIME
 import NotesView from "components/NotesView";
 import PaginatedTimelineView from "components/PaginatedTimelineView";
 
+import {DAEMON} from 'utils/constants';
 
 /* eslint-disable react/prefer-stateless-function */
 export class TagTimeline extends React.Component {
 
   componentDidMount(){
     //  fetch notes
-    // this.props.fetchPaginatedTimeline(undefined, true)
-    if(this.props.timeline.tag_title !== this.props.match.params.title) this.props.fetchPaginatedTimeline(undefined, true)
+    this.props.fetchPaginatedTimeline(undefined, true)
+    // if(this.props.timeline.tag_title !== this.props.match.params.title) this.props.fetchPaginatedTimeline(undefined, true)
     // if(this.props.timeline.notes !== undefined && this.props.timeline.notes.length === 0) this.props.fetchPaginatedTimeline()
   }
 
@@ -79,7 +80,7 @@ const withConnect = connect(
 );
 
 const withReducer = injectReducer({ key: 'tag_timeline', reducer });
-const withSaga = injectSaga({ key: 'tag_timeline', saga });
+const withSaga = injectSaga({ key: 'tag_timeline', saga, mode:DAEMON });
 
 export default compose(
   withReducer,

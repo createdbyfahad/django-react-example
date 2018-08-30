@@ -22,6 +22,7 @@ import LoginPage from 'containers/LoginPage';
 import RegisterPage from 'containers/RegisterPage';
 import LogoutPage from 'containers/LogoutPage';
 import NotesPage from 'containers/NotesPage';
+import PopularTags from 'containers/PopularTags';
 import {PrivateRoute, AuthRoute, ShowIfAuth} from 'containers/AuthProvider';
 import Header from 'components/Header';
 
@@ -38,6 +39,7 @@ export default function App() {
         <AuthRoute path="/register" component={RegisterPage} />
         <Route path="/tags/:title" render={(props) => (
           <TagTimeline key={props.match.params.title} {...props} />)} />
+        <Route path="/test" component={PopularTags} />
         <Route component={NotFoundPage} />
       </Switch>
     </div>

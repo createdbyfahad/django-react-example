@@ -59,3 +59,17 @@ class Notes(generics.ListAPIView):
         #
         # except Tag.DoesNotExist:
         #     return JsonResponse({'error': 'A tag with provided title does note exist.'}, status=404)
+
+
+class TagWithNoteCountSerializer(serializers.ModelSerializer):
+    num_notes = serializers.CharField()
+
+    class Meta:
+        model = Tag
+        # fields = '__all__'
+        fields = ('id', 'title', 'num_notes')
+
+class PopularTags(generics.ListAPIView):
+    queryset = Tag.objects.popular(5)
+    serializer_class = TagWithNoteCountSerializer
+

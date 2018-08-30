@@ -18,10 +18,9 @@ export const NOTE_UPVOTE_ENDPOINT = '/api/notes/{0}/upVote';
 export const NOTE_DOWNVOTE_ENDPOINT = '/api/notes/{0}/downVote';
 
 
-export const TAGS_FETCH_ENDPOINT = '/api/tags/all';
+export const TAGS_FETCH_ENDPOINT = '/api/tags/all/';
+export const POPULAR_TAGS_FETCH_ENDPOINT = '/api/tags/popular/';
 export const TAG_TIMELINE_FETCH_ENDPOINT = '/api/tags/{0}/?id=';
-
-
 
 
 if (!String.prototype.format) {
@@ -177,5 +176,13 @@ export const fetchTagsHandler = (callback) => {
     .then(response => callback(response.data))
     .catch(error => {
       throw error
+    });
+};
+
+export const fetchPopularTagsHandler = () => {
+  return axios.get(POPULAR_TAGS_FETCH_ENDPOINT)
+    .then(response => response.data)
+    .catch(error => {
+      throw error.response.data
     });
 };

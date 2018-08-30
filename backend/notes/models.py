@@ -16,12 +16,10 @@ class AutoDateTimeField(models.DateTimeField):
     def pre_save(self, model_instance, add):
         return datetime.datetime.now()
 
-class TimelineManage(models.Manager):
+class TimelineManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(public=True)
 
-    def from_date(self, date):
-        return self.get_queryset().f
 
 class Note(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -34,7 +32,7 @@ class Note(models.Model):
     updated_at = AutoDateTimeField(default=timezone.now)
 
     objects = models.Manager()
-    timeline = TimelineManage()
+    timeline = TimelineManager()
 
     def save(self, *args, **kwargs):
         if self.image:
