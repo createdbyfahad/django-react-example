@@ -1,26 +1,26 @@
 import axios from 'axios';
 import {createSelector} from "reselect";
 
-export const AUTH_TOKEN_OBTAIN_ENDPOINT = '/api/auth/token/obtain/';
-export const AUTH_TOKEN_REFRESH_ENDPOINT = '/api/auth/token/refresh/';
-export const AUTH_REGISTER_ENDPOINT = '/api/auth/register/';
+export const AUTH_TOKEN_OBTAIN_ENDPOINT = process.env.API_URL + '/auth/token/obtain/';
+export const AUTH_TOKEN_REFRESH_ENDPOINT = process.env.API_URL + '/auth/token/refresh/';
+export const AUTH_REGISTER_ENDPOINT = process.env.API_URL + '/auth/register/';
 
-export const NOTE_ADD_ENDPOINT = '/api/notes/add/';
-export const NOTES_FETCH_ENDPOINT = '/api/notes/';
+export const NOTE_ADD_ENDPOINT = process.env.API_URL + '/notes/add/';
+export const NOTES_FETCH_ENDPOINT = process.env.API_URL + '/notes/';
 
-export const TIMELINE_FETCH_ENDPOINT = '/api/notes/timeline/';
-export const PAGINATED_TIMELINE_FETCH_ENDPOINT = '/api/notes/timeline/paginated/?id=';
+export const TIMELINE_FETCH_ENDPOINT = process.env.API_URL + '/notes/timeline/';
+export const PAGINATED_TIMELINE_FETCH_ENDPOINT = process.env.API_URL + '/notes/timeline/paginated/?id=';
 
-export const NOTE_MAKEPRIVATE_ENDPOINT = '/api/notes/{0}/makePrivate';
-export const NOTE_MAKEPUBLIC_ENDPOINT = '/api/notes/{0}/makePublic';
+export const NOTE_MAKEPRIVATE_ENDPOINT = process.env.API_URL + '/notes/{0}/makePrivate';
+export const NOTE_MAKEPUBLIC_ENDPOINT = process.env.API_URL + '/notes/{0}/makePublic';
 
-export const NOTE_UPVOTE_ENDPOINT = '/api/notes/{0}/upVote';
-export const NOTE_DOWNVOTE_ENDPOINT = '/api/notes/{0}/downVote';
+export const NOTE_UPVOTE_ENDPOINT = process.env.API_URL + '/notes/{0}/upVote';
+export const NOTE_DOWNVOTE_ENDPOINT = process.env.API_URL + '/notes/{0}/downVote';
 
 
-export const TAGS_FETCH_ENDPOINT = '/api/tags/all/';
-export const POPULAR_TAGS_FETCH_ENDPOINT = '/api/tags/popular/';
-export const TAG_TIMELINE_FETCH_ENDPOINT = '/api/tags/{0}/?id=';
+export const TAGS_FETCH_ENDPOINT = process.env.API_URL + '/tags/all/';
+export const POPULAR_TAGS_FETCH_ENDPOINT = process.env.API_URL + '/tags/popular/';
+export const TAG_TIMELINE_FETCH_ENDPOINT = process.env.API_URL + '/tags/{0}/?id=';
 
 
 if (!String.prototype.format) {
