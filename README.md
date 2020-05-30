@@ -1,7 +1,7 @@
 # Django & React :heart:
 An example of an app (Simple Notes) built using Django as a backend, and fully seperate React app as a front end. It uses jwt-token in user authorization.
 
-Demo: http://bit.ly/2L8ZPjF
+Demo: https://bit.ly/django-react-example
 
 ## Screenshots
 <p>
