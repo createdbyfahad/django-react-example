@@ -3,7 +3,7 @@ chardet==3.0.4
 coreapi==2.3.3
 coreschema==0.0.4
 Django==2.0.6
-djangorestframework==3.8.2
+djangorestframework==3.11.2
 djangorestframework-simplejwt==3.2.3
 idna==2.7
 itypes==1.1.0
