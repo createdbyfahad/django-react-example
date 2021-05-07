@@ -156,7 +156,7 @@
     "invariant": "2.2.4",
     "ip": "1.1.5",
     "jwt-decode": "^2.2.0",
-    "lodash": "4.17.10",
+    "lodash": "4.17.21",
     "minimist": "1.2.0",
     "npm": "^6.4.0",
     "prop-types": "15.6.1",
